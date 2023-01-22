@@ -12,7 +12,7 @@ def test_get_transcription(video_id, language_code, expected_transcription):
     result = video.get_transcription(video_id)
 
     assert result[0] == language_code
-    length_difference = len(result[1]) - len(expected_transcription(video_id))
+    length_difference = abs(len(result[1]) - len(expected_transcription(video_id)))
     max_length_difference = 5
     assert length_difference < max_length_difference
 
