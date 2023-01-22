@@ -1,1 +1,1 @@
-find . -name "*.py" | entr -c pytest
+find . -name "*.py" -or -path "*.txt" | entr -c python -m pytest -x $@
