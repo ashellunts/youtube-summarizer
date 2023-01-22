@@ -1,31 +1,20 @@
-import os
 import pytest
 from src import video
 
+MAX_DIFFERENCE_IN_PERCENTAGE = 3
 
-@pytest.mark.parametrize("video_id, language_code", [
-    ("JzPfMbG1vrE", "en"),
-    ("JgBvfC8girQ", "ru"),
-    ("glaNxVBOdyE", "de"),
+
+@pytest.mark.parametrize("video_id, expected_language_code, expected_length", [
+    ("JzPfMbG1vrE", "en", 195),
+    ("JgBvfC8girQ", "ru", 3872),
+    ("glaNxVBOdyE", "de", 4788),
 ])
-def test_get_transcription(video_id, language_code, expected_transcription):
-    result = video.get_transcription(video_id)
+def test_get_transcription(video_id, expected_language_code, expected_length):
+    language_code, transcription = video.get_transcription(video_id)
 
-    assert result[0] == language_code
-    length_difference_percentage = abs(
-        len(result[1]) - len(expected_transcription(video_id))) / len(expected_transcription(video_id)) * 100
-    max_length_difference_percentage = 3
-    assert length_difference_percentage < max_length_difference_percentage, f'difference {length_difference_percentage}'
+    assert expected_language_code == language_code
+    assert difference_in_percentage(expected_length, len(transcription)) < MAX_DIFFERENCE_IN_PERCENTAGE
 
 
-@pytest.fixture()
-def expected_transcription(test_dir_path):
-    def f(video_id):
-        path = os.path.join(test_dir_path, f'{video_id}.txt')
-        return open(path).read().strip()
-    return f
-
-
-@pytest.fixture()
-def test_dir_path(request):
-    return request.fspath.join('..')
+def difference_in_percentage(a, b):
+    return abs(a - b) / b * 100
