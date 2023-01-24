@@ -1,7 +1,5 @@
 import openai
 
-openai.api_key = ""
-
 
 def make(transcript):
     tokens = len(transcript) / 3
