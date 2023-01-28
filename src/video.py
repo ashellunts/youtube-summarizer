@@ -1,5 +1,6 @@
-from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api import YouTubeTranscriptApi, Transcript
 from youtube_transcript_api.formatters import TextFormatter
+from typing import Tuple
 
 
 def get_transcription(video_id):
@@ -7,7 +8,7 @@ def get_transcription(video_id):
     return transcript.language_code, TextFormatter().format_transcript(transcript.fetch())
 
 
-def get_english_transcription(video_id):
+def get_english_transcription(video_id) -> Tuple[str, str]:
     transcript = _get_transcription(video_id)
     transcript_in_english = _translate_to_english(transcript)
 
@@ -27,5 +28,5 @@ def _translate_to_english(transcript):
     return transcript.translate('en')
 
 
-def _get_transcription(video_id):
+def _get_transcription(video_id) -> Transcript:
     return YouTubeTranscriptApi.list_transcripts(video_id).find_transcript(['en-US', 'en', 'ru', 'de'])
