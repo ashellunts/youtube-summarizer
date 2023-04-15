@@ -1,5 +1,5 @@
 import pytest
-from src import video
+from src import transcription as t
 
 MAX_DIFFERENCE_IN_PERCENTAGE = 3.5
 
@@ -10,7 +10,7 @@ MAX_DIFFERENCE_IN_PERCENTAGE = 3.5
     ("glaNxVBOdyE", "de", 4788),
 ])
 def test_get_english_transcription(video_id, expected_language_code, expected_length):
-    language_code, transcription = video.get_english_transcription(video_id)
+    language_code, transcription = t.get_english_transcription(video_id)
 
     assert expected_language_code == language_code
     assert difference_in_percentage(expected_length, len(transcription)) < MAX_DIFFERENCE_IN_PERCENTAGE

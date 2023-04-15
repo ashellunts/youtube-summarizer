@@ -1,5 +1,6 @@
 from flask import Flask, request
-from src import summary, video_id, video
+from src import summary, video_id
+from src import transcription
 
 app = Flask('app')
 
@@ -8,7 +9,7 @@ app = Flask('app')
 def make_summary_2():
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
-    _, transcript = video.get_english_transcription(id)
+    _, transcript = transcription.get_english_transcription(id)
     return summary.make(transcript)
 
 
