@@ -27,7 +27,8 @@ def make(transcript):
 
     print(f'transcript ready, splitted in {len(splits)} chunks')
 
-    summary = ""
+    summary = "<div>"
+    summary_for_big_summary = ""
     i = 0
     for split in splits:
         print(f'call open ai for chunk #{i}...')
@@ -45,12 +46,13 @@ def make(transcript):
 
         print(response)
         text = response["choices"][0]["message"]["content"]  # type: ignore
-        summary += text + "\n\n"
+        summary += "<p>"+text + "</p>"
+        summary_for_big_summary += text + "\n\n"
 
     if len(splits) <= 3:
-        return summary
+        return summary + "</div>"
 
-    prompt = "Here is a summary of a youtube video. Make shorter summary that fits in 1 paragraph. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + summary
+    prompt = "Here is a summary of a youtube video. Make shorter summary that fits in 1 paragraph. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + summary_for_big_summary
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -61,6 +63,6 @@ def make(transcript):
 
     summary_tldr = response["choices"][0]["message"]["content"]  # type: ignore
 
-    final = 'TLDR\n' + summary_tldr + \
-        '\nLonger version\n\n' + summary
+    final = '<p><b>TLDR</b></p><p>' + summary_tldr + \
+        '</p><p><b>Longer version</b></p>' + summary
     return final
