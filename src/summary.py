@@ -1,6 +1,22 @@
 import openai
 
 
+def make_gpt_3_5_turbo(transcript):
+    prompt = "Summarize following text in 2 sentences. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + transcript
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+
+    if isinstance(response, dict):
+        return response["choices"][0]["message"]["content"]
+    else:
+        return "Error"
+
+
 def make(transcript):
     tokens = len(transcript) / 3
 
