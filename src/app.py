@@ -22,7 +22,9 @@ def make_summary_2():
     if isinstance(result, list):
         return render_template('short_summary.html', summary_paragraphs=result)
     else:
-        return "notlist"
+        tldr = result["tldr"]
+        longer_summary = result["longer_summary"]
+        return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
 
 
 def get_server():

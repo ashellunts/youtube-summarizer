@@ -131,6 +131,6 @@ def make2(transcript):
 
     result = {
         "tldr": summary_tldr,
-        "longer": summary
+        "longer_summary": summary
     }
     return result
