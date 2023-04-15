@@ -2,7 +2,7 @@ import pytest
 
 
 def pytest_addoption(parser):
-    parser.addoption('--enable-openai-tests', action='store_true', dest="enable_openai_tests",
+    parser.addoption('--enable-openai-tests', '-O', action='store_true', dest="enable_openai_tests",
                      default=False, help="enable openai tests")
 
 

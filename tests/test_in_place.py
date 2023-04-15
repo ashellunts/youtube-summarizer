@@ -8,7 +8,19 @@ def test_client():
         yield test_client
 
 
-def test_make_summary_api_1(test_client, check_openai_tests):
+text = "The video discusses the sexualization of Brooke Shields as a child model and how it perpetuates toxic cultural norms. Gatekeeping is used to control girls and make them desirable to men. Brooke found her own voice but struggled with agency. The video emphasizes the need for better representation and positive role models."
+
+
+class MockSummarizer:
+    def __init__(self, text):
+        self.text = text
+
+    def make(self, text):
+        return self.text
+
+
+def test_make_summary_api_1(test_client):
+    app.set_mock_summarizer(MockSummarizer(text))
     query_string = {'video_url': 'https://www.youtube.com/watch?v=x7KedT6uvus'}
     response = test_client.post('/api', query_string=query_string)
     assert response.status_code == 200
