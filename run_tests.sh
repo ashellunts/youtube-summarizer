@@ -1,1 +1,2 @@
-find . -name "*.py" -or -path "*.txt" | entr -c python -m pytest -x $@
+export PYTHONDONTWRITEBYTECODE=1
+python -m pytest -x -p no:cacheprovider $@ tests
