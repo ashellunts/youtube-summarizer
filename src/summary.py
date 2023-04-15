@@ -40,8 +40,7 @@ def make(transcript):
 
         print(response)
 
-        text = response["choices"][0]["text"]
-
+        text = response["choices"][0]["text"]  # type: ignore
         SUMMARY_WORD = "SUMMARY"
         index_of_summary_word = text.find(SUMMARY_WORD)
 
