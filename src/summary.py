@@ -32,7 +32,7 @@ def make(transcript):
     for split in splits:
         print(f'call open ai for chunk #{i}...')
 
-        prompt = "Summarize following text. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + split
+        prompt = f"Summarize following youtube video subtitles (part {i+1}). Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + split
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -50,7 +50,7 @@ def make(transcript):
     if len(splits) <= 3:
         return summary
 
-    prompt = "Summarize following text. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + summary
+    prompt = "Here is a summary of a youtube video. Make shorter summary that fits in 1 paragraph. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + summary
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
