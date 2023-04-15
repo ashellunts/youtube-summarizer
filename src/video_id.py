@@ -8,3 +8,5 @@ def get_from_url(video_url):
     r = video_id_regex.search(video_url)
     if (r):
         return r.group('id')
+    else:
+        return None
