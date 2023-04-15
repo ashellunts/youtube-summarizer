@@ -19,13 +19,13 @@ def test_make_summary_api_1_copy(test_client):
     assert EXPECTED_RESPONSE == response.text
 
 
-EXPECTED_RESPONSE_2 = "<div><p>The video is about using Vim to solve a bug in the Chad stack while developing a web application. The bug involves a missing directory, which the user navigates using various Vim plugins such as Telescope and Harpoon. They demonstrate how to find the bug and fix it by creating the necessary directory and implementing some code changes. The video also includes tips for improving navigation in Vim.</p><p>The video covers how to use Vim to make changes to a project's code and how to work with Git. The speaker demonstrates using various commands to create and resolve a merge conflict within Git. He also shows how to use a Vim plugin called Context Tree Sitter to display the current file's changes and the use of keyboard shortcuts to speed up workflow efficiency. The speaker encourages viewers to like and subscribe for more content and to express interest in a workflow tutorial for Tmux, I3, and Vim.</p></div>"
+EXPECTED_RESPONSE_2 = '<div>\n\n<p>The video is about using Vim to solve a bug in the Chad stack while developing a web application. The bug involves a missing directory, which the user navigates using various Vim plugins such as Telescope and Harpoon. They demonstrate how to find the bug and fix it by creating the necessary directory and implementing some code changes. The video also includes tips for improving navigation in Vim.</p>\n\n<p>The video covers how to use Vim to make changes to a project&#39;s code and how to work with Git. The speaker demonstrates using various commands to create and resolve a merge conflict within Git. He also shows how to use a Vim plugin called Context Tree Sitter to display the current file&#39;s changes and the use of keyboard shortcuts to speed up workflow efficiency. The speaker encourages viewers to like and subscribe for more content and to express interest in a workflow tutorial for Tmux, I3, and Vim.</p>\n\n</div>'
 
 
 @pytest.mark.vcr()
 def test_make_summary_api_video_that_needs_2_api_calls(test_client):
     query_string = {'video_url': 'https://www.youtube.com/watch?v=FrMRyXtiJkc'}
-    response = test_client.post('/api', query_string=query_string)
+    response = test_client.post('/api2', query_string=query_string)
     assert response.status_code == 200
     assert EXPECTED_RESPONSE_2 == response.text
 
