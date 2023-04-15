@@ -5,6 +5,7 @@ import pytest
 def vcr_config():
     return {
         "filter_headers": [('authorization', 'DUMMY')],
+        "match_on": ["method", "scheme", "host", "port", "path", "query", "body"],
     }
 
 
