@@ -4,6 +4,7 @@ from src import transcription as t
 MAX_DIFFERENCE_IN_PERCENTAGE = 3.5
 
 
+@pytest.mark.vcr()
 @pytest.mark.parametrize("video_id, expected_language_code, expected_length", [
     ("JzPfMbG1vrE", "en", 195),
     ("JgBvfC8girQ", "ru", 3730),
