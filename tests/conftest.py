@@ -1,4 +1,5 @@
 import pytest
+from src import app
 
 
 @pytest.fixture(scope='module')
@@ -18,3 +19,14 @@ def pytest_addoption(parser):
 def check_openai_tests(request):
     if not request.config.getoption("enable_openai_tests"):
         pytest.skip('open ai tests disabled')
+
+
+@pytest.fixture
+def test_client():
+    with app.get_server().test_client() as test_client:
+        yield test_client
+
+
+@pytest.fixture()
+def test_dir_path(request):
+    return request.fspath.join('..')

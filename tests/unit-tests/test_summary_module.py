@@ -3,7 +3,6 @@ from src import summary
 
 
 @pytest.mark.vcr()
-def test_make_summary_gpt_3_5_turbo():
+def test_summary_module():
     s = summary.make("Hello my name is Alex and I am a software engineer. I live in Germany.")
-    print(s)
     assert "software" in s and "Germany" in s
