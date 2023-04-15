@@ -1,4 +1,4 @@
-from src import video
+from src import video_id
 import pytest
 
 
@@ -11,4 +11,4 @@ import pytest
     "https://youtu.be/6AgzfifL4VE",
 ])
 def test_get_video_id(link):
-    assert video.get_id_from_url(link) == "6AgzfifL4VE"
+    assert video_id.get_from_url(link) == "6AgzfifL4VE"
