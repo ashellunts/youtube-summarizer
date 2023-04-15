@@ -17,4 +17,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run pytest
       run: |
-        python server.py & python -m pytest
+        python server.py & python -m pytest --vcr-record=none
