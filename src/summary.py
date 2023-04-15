@@ -2,7 +2,7 @@ import openai
 
 
 def make_gpt_3_5_turbo(transcript):
-    prompt = "Summarize following text in 1 sentence. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + transcript
+    prompt = "Summarize following text. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + transcript
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[

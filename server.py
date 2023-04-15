@@ -4,12 +4,7 @@ from src import summary, video_id, video
 app = Flask('app')
 
 
-@app.route('/api')
-def make_summary():
-    return summary.make_gpt_3_5_turbo("Hello my name is Alex and I am a software engineer. I live in Germany.")
-
-
-@app.route('/api2', methods=['POST'])
+@app.route('/api', methods=['POST'])
 def make_summary_2():
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
