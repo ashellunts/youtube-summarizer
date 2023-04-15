@@ -12,5 +12,6 @@ def make_summary_2():
     _, transcript = transcription.get_english_transcription(id)
     return summary.make(transcript)
 
+
 def get_server():
     return app
