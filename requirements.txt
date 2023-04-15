@@ -1,3 +1,4 @@
+python-dotenv
 pytest
 youtube_transcript_api
 openai
