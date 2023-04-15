@@ -54,4 +54,17 @@ def make(transcript):
 
         summary += result + "\n\n"
 
-    return summary
+    if len(splits) <= 3:
+        return summary
+
+    prompt = "Summarize following text. " + summary
+    response = openai.Completion.create(model="text-davinci-003",
+                                        prompt=prompt,
+                                        temperature=0.9,
+                                        max_tokens=500)
+
+    summary_tldr = response["choices"][0]["text"]  # type: ignore
+
+    final = 'TLDR\n' + summary_tldr + \
+        '\nLonger version\n\n' + summary
+    return final
