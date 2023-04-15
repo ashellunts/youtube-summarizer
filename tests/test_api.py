@@ -8,13 +8,13 @@ def test_client():
         yield test_client
 
 
-EXPECTED_RESPONSE = "<div><p>Brooke Shields discusses her experiences with objectification and the sexualization of young girls in the entertainment industry. She speaks about the pressure to be desirable to straight men and gatekeeping as a way to control young girls. Shields found her confidence and agency through her own experiences and encourages others to do the same. The cultural environment can be toxic and many people have a similar narrative to Shields'. She questions what could have happened if she wasn't born with beauty.</p></div>"
+EXPECTED_RESPONSE = '<div>\n\n<p>Brooke Shields discusses her experiences with objectification and the sexualization of young girls in the entertainment industry. She speaks about the pressure to be desirable to straight men and gatekeeping as a way to control young girls. Shields found her confidence and agency through her own experiences and encourages others to do the same. The cultural environment can be toxic and many people have a similar narrative to Shields&#39;. She questions what could have happened if she wasn&#39;t born with beauty.</p>\n\n</div>'
 
 
 @pytest.mark.vcr()
-def test_make_summary_api_1(test_client):
+def test_make_summary_api_1_copy(test_client):
     query_string = {'video_url': 'https://www.youtube.com/watch?v=x7KedT6uvus'}
-    response = test_client.post('/api', query_string=query_string)
+    response = test_client.post('/api2', query_string=query_string)
     assert response.status_code == 200
     assert EXPECTED_RESPONSE == response.text
 
