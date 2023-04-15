@@ -17,7 +17,7 @@ def test_make_summary_api_1(test_client):
 
 
 @pytest.mark.vcr()
-def test_make_summary_api_video_that_needs_2_api_calls(test_client, check_openai_tests):
+def test_make_summary_api_video_that_needs_2_api_calls(test_client):
     query_string = {'video_url': 'https://www.youtube.com/watch?v=FrMRyXtiJkc'}
     response = test_client.post('/api', query_string=query_string)
     assert response.status_code == 200
@@ -25,7 +25,7 @@ def test_make_summary_api_video_that_needs_2_api_calls(test_client, check_openai
 
 
 @pytest.mark.vcr()
-def test_make_summary_api_video_that_needs_tldr(check_openai_tests, test_client):
+def test_make_summary_api_video_that_needs_tldr(test_client):
     query_string = {'video_url': 'https://www.youtube.com/watch?v=STpbPXW9-pA'}
     response = test_client.post('/api', query_string=query_string)
     assert response.status_code == 200
