@@ -15,6 +15,8 @@ def test_make_summary_api_video_that_needs_2_api_calls(check_openai_tests):
 
 
 def test_make_summary_api_video_that_needs_tldr(check_openai_tests):
-    url = "https://www.youtube.com/watch?v=pKpnAX612k0"
+    url = "https://www.youtube.com/watch?v=STpbPXW9-pA"
     response = requests.post(f"http://localhost:8080/api?video_url={url}")
-    assert "database" in response.text.lower()
+    assert "mcconnell" in response.text.lower()
+    assert "tldr" in response.text.lower()
+    assert "longer version" in response.text.lower()
