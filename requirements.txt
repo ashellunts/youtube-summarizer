@@ -2,3 +2,4 @@ pytest
 youtube_transcript_api
 openai
 flask
+pytest-vcr
