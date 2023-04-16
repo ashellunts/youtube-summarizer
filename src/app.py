@@ -19,5 +19,13 @@ def make_summary():
         return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
 
 
+@app.route('/transcription', methods=['POST'])
+def make_transcription():
+    video_url = request.args.get('video_url')
+    id = video_id.get_from_url(video_url)
+    _, transcript = transcription.get_transcription(id)
+    return render_template('transcription.html', transcript=transcript)
+
+
 def get_server():
     return app
