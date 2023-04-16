@@ -1,5 +1,7 @@
 import pytest
 from src import app
+import glob
+import os
 
 
 @pytest.fixture(scope='module')
@@ -30,3 +32,12 @@ def test_client():
 @pytest.fixture()
 def test_dir_path(request):
     return request.fspath.join('..')
+
+
+def pytest_sessionstart(session):
+    remove_temporary_workdirs()
+
+
+def remove_temporary_workdirs():
+    for file in glob.glob('**/_actual*.html', recursive=True):
+        os.remove(file)
