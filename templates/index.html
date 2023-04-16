@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Youtube Summarizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+          font-size: 1.125rem;
+          margin: 0 auto;
+          max-width: 640px;
+          padding: 10px;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Youtube Summarizer</h1>
+    <p>Video URL (should have subtitles)</p>
+    <input style="width: 90%; max-width:640px; margin-bottom: 5px;" id="video-url" type="text" name="video-url" value=""></input>
+    <button id="start-button" type="button">Summarize it</button>
+    <button id="subs" type="button">Get subtitles</button>
+    <br>
+    <p id="loading-message" style="display: none"><b>Processing... May take a while.</b></p>
+    <div id="response-container" style="display: none"></div>
+    <div>
+      <p>It takes about 10s for 10 minute video.</p>
+      <p>Made by <a href="https://twitter.com/ashellunts">Artur</a></p>
+    </div>
+
+    <script>
+      const startButton = document.getElementById("start-button");
+      const subs = document.getElementById("subs");
+      const videoUrlInput = document.getElementById("video-url");
+      const loadingMessage = document.getElementById("loading-message");
+      const responseContainer = document.getElementById("response-container");
+
+      startButton.addEventListener("click", () => {
+        const videoUrl = videoUrlInput.value;
+        const apiUrl = `./summary?video_url=${videoUrl}`;
+
+        loadingMessage.style.display = "block";
+        responseContainer.style.display = "none";
+
+        fetch(apiUrl, {method: "POST"})
+          .then(response => response.text())
+          .then(responseText => {
+            loadingMessage.style.display = "none";
+            responseContainer.style.display = "block";
+            responseContainer.innerHTML = responseText;
+          })
+      });
+
+      subs.addEventListener("click", () => {
+        const videoUrl = videoUrlInput.value;
+        const apiUrl = `./transcription?video_url=${videoUrl}`;
+
+        loadingMessage.style.display = "block";
+        responseContainer.style.display = "none";
+
+        fetch(apiUrl, {method: "POST"})
+          .then(response => response.text())
+          .then(responseText => {
+            loadingMessage.style.display = "none";
+            responseContainer.style.display = "block";
+            responseContainer.innerHTML = responseText;
+          })
+      });
+    </script>
+  </body>
+</html>

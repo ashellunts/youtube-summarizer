@@ -27,5 +27,10 @@ def make_transcription():
     return render_template('transcription.html', transcript=transcript)
 
 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
+
 def get_server():
     return app
