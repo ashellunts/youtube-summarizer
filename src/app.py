@@ -11,7 +11,12 @@ app = Flask('app')
 
 @app.route('/transcription', methods=['POST'])
 def make_transcription():
-    storage.add_transcript_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    try:
+        storage.add_transcript_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    except Exception as e:
+        print(e)
+        print("Failed to add transcript call to stats")
+
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
     _, transcript = transcription.get_transcription(id)
@@ -31,7 +36,12 @@ def info():
 
 @app.route('/summary', methods=['POST'])
 async def make_summary():
-    storage.add_summary_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    try:
+        storage.add_summary_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    except Exception as e:
+        print(e)
+        print("Failed to add summary call to stats")
+
     start_time = time.time()
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
