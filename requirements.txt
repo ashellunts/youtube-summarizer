@@ -4,3 +4,4 @@ openai
 flask[async]
 pytest-vcr
 openai-async
+redis
