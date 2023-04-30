@@ -9,7 +9,7 @@ from helpers import read_file, write_file
 @pytest.mark.vcr()
 def test_summary_api(test_client, video_id, test_dir_path):
     query_string = {'video_url': f'https://www.youtube.com/watch?v={video_id}'}
-    response = test_client.post('/summary2', query_string=query_string)
+    response = test_client.post('/summary', query_string=query_string)
     assert response.status_code == 200
     expected_filename = join(test_dir_path, f"expected/{video_id}_summary.html")
     expected = read_file(expected_filename)
