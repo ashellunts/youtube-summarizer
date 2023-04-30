@@ -1,1 +1,1 @@
-python server.py
+flask --app server --debug run
