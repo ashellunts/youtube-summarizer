@@ -19,3 +19,7 @@ jobs:
     - name: Run pytest
       run: |
         OPENAI_API_KEY=DUMMY python -m pytest --vcr-record=none
+    - uses: superfly/flyctl-actions/setup-flyctl@master
+    - run: flyctl deploy --remote-only
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
