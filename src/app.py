@@ -1,15 +1,17 @@
 import time
 import aiohttp
-import asyncio
 from flask import Flask, request, render_template
 from . import summary, video_id
 from . import transcription
-
+from . import storage
+import json
+from datetime import datetime
 app = Flask('app')
 
 
 @app.route('/transcription', methods=['POST'])
 def make_transcription():
+    storage.add_transcript_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
     _, transcript = transcription.get_transcription(id)
@@ -21,8 +23,15 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/info', methods=['GET'])
+def info():
+    calls = storage.get_calls()
+    return json.dumps(calls), 200, {'Content-Type': 'application/json'}
+
+
 @app.route('/summary', methods=['POST'])
 async def make_summary():
+    storage.add_summary_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     start_time = time.time()
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
