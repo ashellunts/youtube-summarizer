@@ -1,5 +1,6 @@
 pytest
 youtube_transcript_api
 openai
-flask
+flask[async]
 pytest-vcr
+openai-async
