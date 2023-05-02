@@ -5,3 +5,4 @@ flask[async]
 pytest-vcr
 openai-async
 redis
+logtail-python
