@@ -3,7 +3,7 @@ import os
 import json
 
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
-r = redis.Redis.from_url(REDIS_URL, socket_timeout=2, retry_on_timeout=True)
+r = redis.Redis.from_url(REDIS_URL, retry_on_timeout=True, health_check_interval=5)
 
 
 def add_summary_call(timestamp):
