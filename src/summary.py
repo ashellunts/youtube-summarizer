@@ -20,9 +20,9 @@ async def open_ai_call(prompt):
     return response.json()["choices"][0]["message"]["content"]  # type: ignore
 
 
-async def make(transcript):
+async def make(logger, transcript):
     tokens = len(transcript) / 4
-    print("input tokens = ", tokens)
+    logger.info(f"input tokens = {tokens}")
     splits = []
     max_token = 4000
     if tokens > max_token:
@@ -56,14 +56,14 @@ async def make(transcript):
 
     if len(splits) <= 3:
         duration_in_second_and_milliseconds = (time.time() - start_time)
-        print(f'short input: duration {duration_in_second_and_milliseconds} seconds')
+        logger.info(f'short input: duration {duration_in_second_and_milliseconds} seconds')
         return summary
 
     prompt = "Here is a summary of a youtube video. Make shorter summary that fits in 1 paragraph. Return back only summary wihthout anything else. Don't include any other facts except those mentioned in the text. " + summary_for_big_summary
 
     summary_tldr = await open_ai_call(prompt)
     duration_in_second_and_milliseconds = (time.time() - start_time)
-    print(f'long input: duration {duration_in_second_and_milliseconds} seconds')
+    logger.info(f'long input: duration {duration_in_second_and_milliseconds} seconds')
 
     result = {
         "tldr": summary_tldr,

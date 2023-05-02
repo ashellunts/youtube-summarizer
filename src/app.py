@@ -14,8 +14,8 @@ def make_transcription():
     try:
         storage.add_transcript_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     except Exception as e:
-        print(e)
-        print("Failed to add transcript call to stats")
+        app.logger.error(e)
+        app.logger.error("Failed to add transcript call to stats")
 
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
@@ -30,8 +30,12 @@ def index():
 
 @app.route('/info', methods=['GET'])
 def info():
-    calls = storage.get_calls()
-    return json.dumps(calls), 200, {'Content-Type': 'application/json'}
+    try:
+        calls = storage.get_calls()
+        return json.dumps(calls), 200, {'Content-Type': 'application/json'}
+    except Exception as e:
+        app.logger.error(e)
+        return "internal error", 500
 
 
 @app.route('/summary', methods=['POST'])
@@ -39,26 +43,19 @@ async def make_summary():
     try:
         storage.add_summary_call(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     except Exception as e:
-        print(e)
-        print("Failed to add summary call to stats")
+        app.logger.error(e)
+        app.logger.error("Failed to add summary call to stats")
 
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
     _, transcript = transcription.get_english_transcription(id)
-    result = await summary.make(transcript)
+    result = await summary.make(app.logger, transcript)
     if isinstance(result, list):
         return render_template('short_summary.html', summary_paragraphs=result)
     else:
         tldr = result["tldr"]
         longer_summary = result["longer_summary"]
         return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
-
-
-async def fetch(i, url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            print(i, " status code", response.status)
-            return response.status
 
 
 def get_server():
