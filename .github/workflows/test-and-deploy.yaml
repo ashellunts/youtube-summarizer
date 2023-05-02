@@ -3,7 +3,7 @@ name: Python tests
 on: [push, pull_request]
 
 jobs:
-  pytest:
+  test-and-deploy:
     runs-on: ubuntu-latest
     services:
       redis:
