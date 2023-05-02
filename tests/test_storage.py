@@ -2,7 +2,7 @@ from src import storage
 from datetime import datetime
 
 
-def _test_storage():
+def test_storage():
     storage._delete_calls()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calls = storage.get_calls()
