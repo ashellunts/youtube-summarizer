@@ -42,7 +42,6 @@ async def make_summary():
         print(e)
         print("Failed to add summary call to stats")
 
-    start_time = time.time()
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
     _, transcript = transcription.get_english_transcription(id)
@@ -52,8 +51,6 @@ async def make_summary():
     else:
         tldr = result["tldr"]
         longer_summary = result["longer_summary"]
-        duration_in_second_and_milliseconds = (time.time() - start_time)
-        print(f'ALL request took {duration_in_second_and_milliseconds} seconds')
         return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
 
 
