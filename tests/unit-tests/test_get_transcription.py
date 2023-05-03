@@ -9,6 +9,7 @@ MAX_DIFFERENCE_IN_PERCENTAGE = 3.5
     ("JzPfMbG1vrE", "en", 195),
     ("JgBvfC8girQ", "ru", 3730),
     ("glaNxVBOdyE", "de", 5199),
+    ("wOGuZnYY_2w", "en-CA", 9636),
 ])
 def test_get_transcription(video_id, expected_language_code, expected_length):
     language_code, transcription = t.get_transcription(video_id)

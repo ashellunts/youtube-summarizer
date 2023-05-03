@@ -29,4 +29,9 @@ def _translate_to_english(transcript):
 
 
 def _get_transcription(video_id) -> Transcript:
-    return YouTubeTranscriptApi.list_transcripts(video_id).find_transcript(['en-US', 'en', 'ru', 'de'])
+    transcripts = YouTubeTranscriptApi.list_transcripts(video_id)
+    for transcript in transcripts:
+        if 'en' in transcript.language_code:
+            return transcript
+    for transcript in transcripts:
+        return transcript
