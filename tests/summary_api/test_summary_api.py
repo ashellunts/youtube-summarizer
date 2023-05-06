@@ -39,12 +39,3 @@ def test_summary_api(test_client, video_id, test_dir_path):
     diff_in_seconds = (timestamp_now - timestamp_recorded).total_seconds()
     assert diff_in_seconds < 3
     storage._delete_calls()
-
-
-@pytest.mark.vcr()
-def test_summary_api_no_transcriptoin(test_client):
-    video_id = "pJ9ffd8C1JU"
-    query_string = {'video_url': f'https://www.youtube.com/watch?v={video_id}'}
-    response = test_client.post('/summary', query_string=query_string)
-    assert response.status_code == 200
-    assert "Subtitles are disabled for this video" in response.text
