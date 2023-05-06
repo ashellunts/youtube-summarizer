@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 from . import summary, video_id
 from . import transcription
 from . import storage
+import youtube_transcript_api
 import json
 from datetime import datetime
 app = Flask('app')
@@ -19,8 +20,12 @@ def make_transcription():
 
     video_url = request.args.get('video_url')
     id = video_id.get_from_url(video_url)
-    _, transcript = transcription.get_transcription(id)
-    return render_template('transcription.html', transcript=transcript)
+    try:
+        _, transcript = transcription.get_transcription(id)
+        return render_template('transcription.html', transcript=transcript)
+    except youtube_transcript_api._errors.TranscriptsDisabled as e:
+        app.logger.warning(e)
+        return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
 
 
 @app.route('/', methods=['GET'])
@@ -46,16 +51,20 @@ async def make_summary():
         app.logger.error(e)
         app.logger.error("Failed to add summary call to stats")
 
-    video_url = request.args.get('video_url')
-    id = video_id.get_from_url(video_url)
-    _, transcript = transcription.get_english_transcription(id)
-    result = await summary.make(app.logger, transcript)
-    if isinstance(result, list):
-        return render_template('short_summary.html', summary_paragraphs=result)
-    else:
-        tldr = result["tldr"]
-        longer_summary = result["longer_summary"]
-        return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
+    try:
+        video_url = request.args.get('video_url')
+        id = video_id.get_from_url(video_url)
+        _, transcript = transcription.get_english_transcription(id)
+        result = await summary.make(app.logger, transcript)
+        if isinstance(result, list):
+            return render_template('short_summary.html', summary_paragraphs=result)
+        else:
+            tldr = result["tldr"]
+            longer_summary = result["longer_summary"]
+            return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
+    except youtube_transcript_api._errors.TranscriptsDisabled as e:
+        app.logger.warning(e)
+        return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
 
 
 def get_server():
