@@ -18,14 +18,17 @@ def make_transcription():
         app.logger.error(e)
         app.logger.error("Failed to add transcript call to stats")
 
-    video_url = request.args.get('video_url')
-    id = video_id.get_from_url(video_url)
     try:
+        video_url = request.args.get('video_url')
+        id = video_id.get_from_url(video_url)
         _, transcript = transcription.get_transcription(id)
         return render_template('transcription.html', transcript=transcript)
     except youtube_transcript_api._errors.TranscriptsDisabled as e:
         app.logger.warning(e)
         return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
+    except video_id.ErrorParsingVideoUrl as e:
+        app.logger.warning(str(e) + ", url:" + str(video_url))
+        return "<b style='color:red'>" + str(e) + "</b>"
 
 
 @app.route('/', methods=['GET'])
@@ -63,8 +66,11 @@ async def make_summary():
             longer_summary = result["longer_summary"]
             return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
     except youtube_transcript_api._errors.TranscriptsDisabled as e:
-        app.logger.warning(e)
+        app.logger.warning(str(e))
         return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
+    except video_id.ErrorParsingVideoUrl as e:
+        app.logger.warning(str(e) + ", url:" + str(video_url))
+        return "<b style='color:red'>" + str(e) + "</b>"
 
 
 def get_server():
