@@ -23,7 +23,7 @@ def make_transcription():
         id = video_id.get_from_url(video_url)
         _, transcript = transcription.get_transcription(id)
         return render_template('transcription.html', transcript=transcript)
-    except youtube_transcript_api._errors.TranscriptsDisabled as e:
+    except youtube_transcript_api._errors.CouldNotRetrieveTranscript as e:
         app.logger.warning(e)
         return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
     except video_id.ErrorParsingVideoUrl as e:
@@ -65,7 +65,7 @@ async def make_summary():
             tldr = result["tldr"]
             longer_summary = result["longer_summary"]
             return render_template('long_summary.html', tldr=tldr, summary_paragraphs=longer_summary)
-    except youtube_transcript_api._errors.TranscriptsDisabled as e:
+    except youtube_transcript_api._errors.CouldNotRetrieveTranscript as e:
         app.logger.warning(str(e))
         return "<b style='color:red'>" + e.CAUSE_MESSAGE + "</b>"
     except video_id.ErrorParsingVideoUrl as e:
