@@ -1,7 +1,7 @@
 pytest==7.3.1
 youtube-transcript-api==0.6.0
 openai==0.27.6
-Flask==2.3.2
+flask[async]==2.3.2
 pytest-vcr==1.0.2
 openai-async==0.0.3
 redis==4.5.4
