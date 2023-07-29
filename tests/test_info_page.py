@@ -1,8 +1,4 @@
-import pytest
-from os.path import join
-from helpers import read_file, write_file
 from src import storage
-from datetime import datetime
 
 
 def test_info_page(test_client):
@@ -24,5 +20,5 @@ def test_info_page(test_client):
     response = test_client.get('/stats')
     assert response.status_code == 200
     assert response.content_type == 'text/html; charset=utf-8'
-    assert response.text == f"""2023-07-29: summary 3, transcript 2
-2023-07-30: summary 1, transcript 1\n"""
+    assert "2023-07-29: summary 3, transcript 2" in response.text
+    assert "2023-07-30: summary 1, transcript 1" in response.text

@@ -62,10 +62,10 @@ def info_summary():
                 stats[day]["summary"] += 1
             else:
                 stats[day]["transcript"] += 1
-        res = ""
+        res = []
         for day in sorted(stats.keys()):
-            res += f"{day}: summary {stats[day]['summary']}, transcript {stats[day]['transcript']}\n"
-        return res
+            res.append(f"{day}: summary {stats[day]['summary']}, transcript {stats[day]['transcript']}")
+        return render_template('stats.html', stats=res)
     except Exception as e:
         app.logger.error(e)
         return "internal error", 500
