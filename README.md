@@ -6,4 +6,5 @@ Get summary and transcript of a youtube video using OpenAI API
 [https://youtube-summary.fly.dev/](https://youtube-summary.fly.dev/)
 
 ## Demo
-https://raw.githubusercontent.com/ashellunts/youtube-summarizer/master/static/demo.mp4
+https://github.com/ashellunts/youtube-summarizer/assets/2046305/1dc3f2bd-be20-4786-86bb-0816fdf49ac1
+
