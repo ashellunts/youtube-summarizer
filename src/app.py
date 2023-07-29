@@ -46,6 +46,31 @@ def info():
         return "internal error", 500
 
 
+@app.route('/stats', methods=['GET'])
+def info_summary():
+    try:
+        calls = storage.get_calls()
+        stats = {}
+        for call in calls.values():
+            input_date_format = "%Y-%m-%d"
+            date_obj = datetime.strptime(call[:10], input_date_format)
+            output_format = "%Y-%m-%d"
+            day = date_obj.strftime(output_format)
+            if not day in stats:
+                stats[day] = {"summary": 0, "transcript": 0}
+            if "make_summary" in call:
+                stats[day]["summary"] += 1
+            else:
+                stats[day]["transcript"] += 1
+        res = ""
+        for day in sorted(stats.keys()):
+            res += f"{day}: summary {stats[day]['summary']}, transcript {stats[day]['transcript']}\n"
+        return res
+    except Exception as e:
+        app.logger.error(e)
+        return "internal error", 500
+
+
 @app.route('/summary', methods=['POST'])
 async def make_summary():
     try:
