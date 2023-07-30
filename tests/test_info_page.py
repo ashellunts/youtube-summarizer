@@ -22,3 +22,4 @@ def test_info_page(test_client):
     assert response.content_type == 'text/html; charset=utf-8'
     assert "2023-07-29: summary 3, transcript 2" in response.text
     assert "2023-07-30: summary 1, transcript 1" in response.text
+    assert response.text.index("2023-07-30") < response.text.index("2023-07-29") 

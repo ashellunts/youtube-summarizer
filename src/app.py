@@ -63,7 +63,7 @@ def info_summary():
             else:
                 stats[day]["transcript"] += 1
         res = []
-        for day in sorted(stats.keys()):
+        for day in sorted(stats.keys(), reverse=True):
             res.append(f"{day}: summary {stats[day]['summary']}, transcript {stats[day]['transcript']}")
         return render_template('stats.html', stats=res)
     except Exception as e:
