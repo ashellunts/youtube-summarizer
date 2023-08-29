@@ -46,6 +46,13 @@ def info():
         return "internal error", 500
 
 
+@app.route('/timeout', methods=['GET'])
+def timeout():
+    duration = request.args.get('duration')
+    time.sleep(int(duration))
+    return f"waited {duration} seconds"
+
+
 @app.route('/stats', methods=['GET'])
 def info_summary():
     try:
