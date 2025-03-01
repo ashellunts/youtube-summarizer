@@ -1,21 +1,21 @@
-# fly.toml file generated for youtube-summary on 2023-04-16T19:49:20+02:00
+# fly.toml app configuration file generated for youtube-summary on 2025-03-01T15:11:04+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "youtube-summary"
-primary_region = "ams"
+app = 'youtube-summary'
+primary_region = 'cdg'
 
 [build]
-  builder = "paketobuildpacks/builder:base"
-
-[env]
-  PORT = "8080"
 
 [http_service]
   internal_port = 8080
   force_https = true
+  auto_stop_machines = 'suspend'
+  auto_start_machines = true
+  processes = ['app']
 
-[checks]
-  [checks.alive]
-    type = "tcp"
-    interval = "15s"
-    timeout = "2s"
-    grace_period = "5s"
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

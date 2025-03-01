@@ -2,7 +2,7 @@ import redis
 import os
 import json
 
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+REDIS_URL = os.environ.get("REDIS_URL", "redis://host.docker.internal:6379")
 r = redis.Redis.from_url(REDIS_URL, retry_on_timeout=True, socket_timeout=3)
 
 
